@@ -43,6 +43,7 @@ def getProcess():
 
 
 def getProcessList(user: str) -> bool:
+    contador = 0
     if user in optionA.userList():
         for process in psutil.process_iter(['pid', 'name', 'username']):
             namename = str(process.info['username'])
@@ -51,9 +52,10 @@ def getProcessList(user: str) -> bool:
                 name = process.info['name']
                 cpu_percent = process.cpu_percent()
                 status = process.status()
-                
+                contador +=1
                 print(f"Nombre: {name} | Identificador: {pid} | Porcentaje CPU: {cpu_percent}% | Estado: {status}")
-                return True
+        print(contador)
+        return True
     else:
         print("\nNombre de usuario inválido")
         return False    
