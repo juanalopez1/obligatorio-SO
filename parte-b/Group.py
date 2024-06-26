@@ -10,15 +10,3 @@ class Group:
         self.users = []
 
     
-    
-    powershell_path = "powershell.exe"
-
-    # Comando de PowerShell que deseas ejecutar
-    command = "Get-local"
-
-    # Ejecuta el comando de PowerShell desde Python
-    result = subprocess.run([powershell_path, command], capture_output=True, text=True)
-
-    # Imprime la salida del comando
-    print(result.stdout)
-    
