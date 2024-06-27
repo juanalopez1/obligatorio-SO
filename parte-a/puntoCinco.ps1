@@ -21,9 +21,11 @@ function GuardarProcesos {
 
     # Mostrar en pantalla si el usuario es SOPORTE
     if ([System.Security.Principal.WindowsIdentity]::GetCurrent().Name -eq "DOMINIO\SOPORTE") {
-        Write-Output $contenido
+        Write-Host $contenido
     }
 }
+# Ejecutar la función para guardar los procesos
+GuardarProcesos
 
 # Programar la tarea para ejecutarse cada 60 minutos
 $trigger = New-JobTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 60) -RepetitionDuration ([TimeSpan]::MaxValue)
