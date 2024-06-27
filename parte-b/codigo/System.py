@@ -27,7 +27,7 @@ def set_local_groups(users: list[User]) -> list[User]: # crea los grupos dentro 
             groups[name_group] = result
             for username in users:
                 if username.name in groups[name_group]:
-                    username.groups += name_group 
+                    username.groups += name_group + ' '
     return users
 
 
@@ -36,8 +36,8 @@ def print_users():
     users = set_local_groups(users)
     for user in users:
         if user.groups == '':
-            print(f"Nombre: {user.name} | Grupos: no pertenece a ningún grupo | Respaldo: {user.backup}")
+            print(f"\nNombre: {user.name} | Grupos: no pertenece a ningún grupo | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
         else:
-            print(f"Nombre: {user.name} | Grupos: {user.groups} | Respaldo: {user.backup}")
+            print(f"\nNombre: {user.name} | Grupos: {user.groups} | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
         
 
