@@ -1,5 +1,5 @@
 ## Cómo configurar el entorno para la ejecución de Gestioner
-### Instalar python
+### 1 Instalar python
 
 Ve a [python.org](python.org)
 
@@ -7,11 +7,11 @@ Haz clic en el botón de descarga para la versión recomendada (generalmente la 
 
 Verifica la instalación en cmd con: python --version (comando)
 
-### Descarga las librerias usadas por el programa
+### 2 Descarga las librerias usadas por el programa
 
 Psutil: pip install psutil (comando)
 
-### Instala Git para la descarga de este repositorio
+### 3 Instala Git para la descarga de este repositorio
 
 El repositorio tiene el codigo fuente, main.py vendría ser el ejecutable
 
