@@ -1,4 +1,4 @@
-cd $HOME
+Set-Location $HOME
 New-Item -ItemType Directory -Force -Path "$HOME\Comunicados\Semanal"
 New-Item -ItemType Directory -Force -Path "$HOME\Comunicados\Mensual"
 New-Item -ItemType Directory -Force -Path "$HOME\Respaldo"
