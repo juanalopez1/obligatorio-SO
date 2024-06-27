@@ -1,8 +1,7 @@
 ### Cómo configurar el entorno para la ejecución de Gestioner
 1. Instalar python
 
-Ve a [python.org][1]
-[1][python.org]
+Ve a [python.org](python.org)
 
 Haz clic en el botón de descarga para la versión recomendada (generalmente la última versión estable). Descarga para Windows.
 
@@ -16,7 +15,7 @@ Psutil: pip install psutil
 
 El repositorio tiene el codigo fuente, main.py vendría ser el ejecutable
 
-Ve a git-scm.com y descarga el instalador de Git para Windows.
+Ve a [git-scm.com](git-scm.com) y descarga el instalador de Git para Windows.
 Verifica la instalación:
 
 git clone https://github.com/juanalopez1/obligatorio-SO
