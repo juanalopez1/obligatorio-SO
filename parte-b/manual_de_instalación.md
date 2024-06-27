@@ -1,7 +1,8 @@
 ### Cómo configurar el entorno para la ejecución de Gestioner
 1. Instalar python
 
-Ve a [python.org][python.org]
+Ve a [python.org][1]
+[1][python.org]
 
 Haz clic en el botón de descarga para la versión recomendada (generalmente la última versión estable). Descarga para Windows.
 
