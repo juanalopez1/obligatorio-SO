@@ -6,7 +6,7 @@ Add-LocalGroupMember -Group Usuarios -Member Contaduria
 Set-Location $HOME\Desktop
 
 # Verificar si existe la carpeta "Asientos" y crearla si no existe
-if (!(Test-Path "$HOME\Desktop\Asientos")) {
+if (-not (Test-Path "$HOME\Desktop\Asientos")) {
     New-Item -ItemType Directory -Path "$HOME\Desktop\Asientos"
 }
 
@@ -19,7 +19,7 @@ New-Item -ItemType Directory -Path "$HOME\Desktop\Asientos\Mensual"
 $rutaRespaldo = "C:\Respaldo"
 
 # Verificar si existe la carpeta de respaldo y crearla si no existe
-if (!(Test-Path $rutaRespaldo)) {
+if (-not (Test-Path $rutaRespaldo)) {
     New-Item -ItemType Directory -Path $rutaRespaldo
 }
 

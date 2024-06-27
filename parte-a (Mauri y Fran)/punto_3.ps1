@@ -5,7 +5,7 @@ Add-LocalGroupMember -Group Usuarios -Member "Relaciones Publicas"
 # Cambiar la ubicación actual al escritorio del usuario
 Set-Location $HOME\Desktop
 
-if (!(Test-Path "$HOME\Desktop\Comunicados")) {
+if (-not (Test-Path "$HOME\Desktop\Comunicados")) {
     New-Item -ItemType Directory -Path "$HOME\Desktop\Comunicados"
 }
 
@@ -16,7 +16,7 @@ New-Item -ItemType Directory -Path "$HOME\Desktop\Comunicados\Mensual"
 $rutaRespaldo = "C:\Respaldo"
 
 # Verificar si existe la carpeta de respaldo y crearla si no existe
-if (!(Test-Path $rutaRespaldo)) {
+if (-not (Test-Path $rutaRespaldo)) {
     New-Item -ItemType Directory -Path $rutaRespaldo
 }
 
