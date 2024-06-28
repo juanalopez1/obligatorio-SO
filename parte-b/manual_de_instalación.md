@@ -10,6 +10,7 @@ Verifica la instalación en cmd con: python --version (comando)
 ### 2 Descarga las librerias usadas por el programa
 
 Psutil: pip install psutil (comando)
+Wmi: pip install wmi (comando)
 
 ### 3 Instala Git para la descarga de este repositorio
 

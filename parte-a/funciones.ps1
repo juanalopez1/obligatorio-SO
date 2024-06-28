@@ -9,12 +9,10 @@ function create_user {
 
 function create_dir {
     param (
-        [string]$dir_name,
-        [string]$username
+        [string]$username,    
+        [string]$dir_name
     )
     
-    Set-Location C:\Users\$username\Desktop
-
     if (-not (Test-Path "C:\Users\$username\Desktop\$dir_name")) {
         New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name"
     }
@@ -28,8 +26,8 @@ function create_dir {
 
 function do_bakcup {
     param (
-        [string]$dir_name,
-        [string]$username
+        [string]$username,
+        [string]$dir_name
     )
     $rutaRespaldo = "C:\Respaldo"
 

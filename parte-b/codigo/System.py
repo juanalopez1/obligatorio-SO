@@ -36,8 +36,8 @@ def print_users():
     users = set_local_groups(users)
     for user in users:
         if user.groups == '':
-            print(f"\nNombre: {user.name} | Grupos: no pertenece a ningún grupo | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
+            print(f"Nombre: {user.name} | Grupos: no pertenece a ningún grupo | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
         else:
-            print(f"\nNombre: {user.name} | Grupos: {user.groups} | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
+            print(f"Nombre: {user.name} | Grupos: {user.groups} | Ultimo ingreso: {user.last_seen} | Respaldo: {user.backup}")
         
 
