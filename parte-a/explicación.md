@@ -6,8 +6,8 @@ Para cumplir con la consigna, hemos decidido crear varias funciones que acepten 
 - create_user: Esta función crea un nuevo usuario con el nombre proporcionado como parámetro y lo añade al grupo "Usuarios".
 - create_dir: Esta función crea un directorio en el escritorio del usuario especificado. Recibe como parámetros el nombre del usuario y el nombre del directorio a crear (en este caso, "Asientos" y "Comunicados"). Además, crea subdirectorios específicos dentro de estos directorios según lo  indicado en la consigna.
 - do_backup: Esta función realiza una copia de seguridad de las carpetas creadas por create_dir en la raíz del disco.
-- change_permissions: Esta función ajusta los permisos del usuario para que solo tenga acceso a sus propias carpetas.
-- block_access_to_dir: Esta función restringe el acceso del usuario a la raíz del disco.
+- set_user_folder_permissions: Esta función ajusta los permisos del usuario para que solo tenga acceso a sus propias carpetas y pueda modificarlas.
+- block_access_to_users: Esta función restringe el acceso del usuario a la raíz del disco.
 
 ### contaduria.ps1, recepcion.ps1 y relaciones_publicas.ps1
 En estos scripts, se utiliza el archivo funciones.ps1 y se le proporcionan los parámetros necesarios para la ejecución de las funciones definidas. Estos archivos actúan como los "scripts ejecutables".
