@@ -1,12 +1,24 @@
+# Creación de los usuarios
 function create_user {
     param (
         [string]$username
     )
-    New-LocalUser -Name $username
-    Add-LocalGroupMember -Group Usuarios -Member $username 
+    
+    if (-not (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue)) {
+        # Se crea el usuario sin contraseña
+        New-LocalUser -Name $username -NoPassword -Description "Usuario $username" -PasswordNeverExpires:$true -AccountNeverExpires:$true | Out-Null
+        Write-Output "Usuario '$username' creado exitosamente."
+    }
+    else {
+        Write-Output "El usuario '$username' ya existe. No se creara"
+    }
+
+    # Agregar el usuario al grupo
+    Add-LocalGroupMember -Group "Usuarios" -Member $username | Out-Null
+    Write-Output "Usuario '$username' agregado al grupo Usuarios."
 }
 
-
+# Creación de sus carpetas
 function create_dir {
     param (
         [string]$username,    
@@ -24,6 +36,7 @@ function create_dir {
     New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Mensual" 
 }
 
+# Respaldo de las carpetas
 function do_bakcup {
     param (
         [string]$username,
@@ -41,8 +54,8 @@ function do_bakcup {
     Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
 }
 
-
-function change_permissions {
+# Para que solo puedan modificar sus carpetas
+function set_user_folder_permissions {
     param (
         [string]$username
     )
@@ -51,14 +64,16 @@ function change_permissions {
 
     $acl = Get-Acl $rutaCarpetaUsuario
 
-    $permission = $username, "Modify", "ContainerInherit,ObjectInherit", "None", "Deny"
+    # Permisos para permitir la modificación
+    $permission = $username, "Modify", "ContainerInherit,ObjectInherit", "None", "Allow"
     $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($permission)
     $acl.SetAccessRule($accessRule)
 
     Set-Acl $rutaCarpetaUsuario $acl 
 }
 
-function block_access_to_dir {
+# Para que solo puedan acceder unicamente a sus carpetas
+function block_access_to_users {
     param (
         [string]$username
     )
