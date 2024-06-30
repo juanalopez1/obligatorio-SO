@@ -1,12 +1,7 @@
-. .\funciones.ps1
+Import-Module .\funciones.ps1
 
-param (
-    [string]$username,
-    [string]$dir_name
-)
-
-create_user Contaduria $username
-create_dir Contaduria $username Asientos $dir_name
-do_bakcup Contaduria $username Asientos $dir_name
-set_user_folder_permissions Contaduria $username 
-block_access_to_users Contaduria $username 
+create_user -username Contaduria 
+create_dir -username Contaduria -dir_name Asientos 
+do_bakcup -username Contaduria -dir_name Asientos 
+set_user_folder_permissions -username Contaduria 
+block_access_to_users -username Contaduria 

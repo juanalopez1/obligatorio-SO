@@ -1,8 +1,6 @@
 # Creación de los usuarios
 function create_user {
-    param (
-        [string]$username
-    )
+    param ($username)
     
     if (-not (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue)) {
         # Se crea el usuario sin contraseña
@@ -20,10 +18,7 @@ function create_user {
 
 # Creación de sus carpetas
 function create_dir {
-    param (
-        [string]$username,    
-        [string]$dir_name
-    )
+    param ($username, $dir_name)
     
     if (-not (Test-Path "C:\Users\$username\Desktop\$dir_name")) {
         New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name"
@@ -34,14 +29,12 @@ function create_dir {
     }
     New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Semanal"
     New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Mensual" 
+    Write-Output "El directorio $dir_name se ha creado con éxito"
 }
 
 # Respaldo de las carpetas
 function do_bakcup {
-    param (
-        [string]$username,
-        [string]$dir_name
-    )
+    param ($username, $dir_name)
     $rutaRespaldo = "C:\Respaldo"
 
     if (-not (Test-Path $rutaRespaldo)) {
@@ -52,13 +45,12 @@ function do_bakcup {
     $date = $date.ToUpper()
 
     Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
+    Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
 # Para que solo puedan modificar sus carpetas
 function set_user_folder_permissions {
-    param (
-        [string]$username
-    )
+    param ($username)
 
     $rutaCarpetaUsuario = "C:\Users\$username" 
 
@@ -70,13 +62,12 @@ function set_user_folder_permissions {
     $acl.SetAccessRule($accessRule)
 
     Set-Acl $rutaCarpetaUsuario $acl 
+    Write-Output "Se concedieron permisos de modificacion a $rutaCarpetaUsuario exitosamente"
 }
 
 # Para que solo puedan acceder unicamente a sus carpetas
 function block_access_to_users {
-    param (
-        [string]$username
-    )
+    param ($username)
     $nombreUsuario = $username
     $carpetasRestringidas = @("C:\") 
 
@@ -87,4 +78,6 @@ function block_access_to_users {
         $aclRestringida.SetAccessRule($accessRuleRestringida)
         Set-Acl $carpeta $aclRestringida
     }
+
+    Write-Output "El usuario $username no puede acceder a C:\"
 }

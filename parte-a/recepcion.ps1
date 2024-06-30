@@ -1,10 +1,10 @@
-. .\funciones.ps1
+Import-Module.\funciones.ps1
 
 param (
     [string]$username,
     [string]$dir_name
 )
 
-create_user Recepcion $username
-set_user_folder_permissions Recepcion $username 
-block_access_to_users Recepcion $username 
+create_user -username Recepcion
+set_user_folder_permissions -username Recepcion
+block_access_to_users -username Recepcion 

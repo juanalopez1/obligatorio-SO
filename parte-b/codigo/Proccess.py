@@ -5,37 +5,22 @@ def get_process():
     print(f"\nUsuario logueado: " + colors.GREEN + f"{psutil.Process().username().split('\\')[-1]}" + colors.ENDC + "\nSus procesos: ")
     get_process_list(psutil.Process().username())
     modification = input(colors.BLUE + "Desea hacer alguna modificación en alguno? S/N: " +colors.ENDC)
-    if modification == "s" or modification == "S":
-        option = input("a. Eliminar un proceso \nb. Pausar un proceso" + colors.YELLOW + "\nEscriba 'volver' si se arrepintió" +colors.ENDC + "\nOpción: ")
-        if option == "a":
+    modification = modification.lower()
+    if modification == "s":
+        option = input("1. Eliminar un proceso \n2. Pausar un proceso" + colors.YELLOW + "\nEscriba 'volver' si se arrepintió" +colors.ENDC + "\nOpción: ")
+        if option == "1":
             id = input("Ingrese id del proceso que quiere eliminar: ")
-            try:
-                psutil.Process(int(id)).terminate()
-                print(colors.GREEN + f"Proceso con PID {id} terminado.")
-                return
-            except psutil.NoSuchProcess:
-                print(colors.RED + f"No existe el proceso con PID {id}.")
-                return
-            except psutil.AccessDenied:
-                print(colors.YELLOW + f"Acceso denegado para terminar el proceso con PID {id}.")
-                return
-        elif option == "b":
+            delete_proc(id)
+            return
+        elif option == "2":
             id = input("Ingrese id del proceso que quiere pausar: ")
-            try:
-                psutil.Process(int(id)).suspend()
-                print(colors.GREEN +f"Proceso con PID {id} pausado.")
-                return
-            except psutil.NoSuchProcess:
-                print(colors.RED + f"No existe el proceso con PID {id}.")
-                return
-            except psutil.AccessDenied:
-                print(colors.YELLOW + f"Acceso denegado para pausar el proceso con PID {id}.")
-                exit
+            modify_proc(id)
+            return
         elif option == "volver":
             return
         else:
             print(colors.RED + "Opción inválida")
-    elif modification == "n" or modification == "N":
+    elif modification == "n":
         print("No se hicieron modificaciones.")
         return
     else:
@@ -57,3 +42,27 @@ def get_process_list(user: str) -> bool:
             print(f"Nombre: {name} | Identificador: {pid} | Porcentaje CPU: {cpu_percent}% | Estado: {status}")
     print(colors.GREEN + "Total:", contador)
     return True
+
+def delete_proc(id):
+    try:
+        psutil.Process(int(id)).terminate()
+        print(colors.GREEN + f"Proceso con PID {id} terminado.")
+        return
+    except psutil.NoSuchProcess:
+        print(colors.RED + f"No existe el proceso con PID {id}.")
+        return
+    except psutil.AccessDenied:
+        print(colors.YELLOW + f"Acceso denegado para terminar el proceso con PID {id}.")
+        return
+    
+def modify_proc(id):
+    try:
+        psutil.Process(int(id)).suspend()
+        print(colors.GREEN +f"Proceso con PID {id} pausado.")
+        return
+    except psutil.NoSuchProcess:
+        print(colors.RED + f"No existe el proceso con PID {id}.")
+        return
+    except psutil.AccessDenied:
+        print(colors.YELLOW + f"Acceso denegado para pausar el proceso con PID {id}.")
+        exit

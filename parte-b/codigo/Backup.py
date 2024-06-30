@@ -31,7 +31,6 @@ def do_backup(user) -> bool:
         backup_directory = os.path.join(home_directory, 'Respaldo')
         return os.path.exists(backup_directory)
     except subprocess.CalledProcessError as e:
-        print(colors.RED + f"Error al ejecutar backup.ps1: {e}")
         return False
 
 
