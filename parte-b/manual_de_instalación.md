@@ -26,9 +26,10 @@ pip install wmi
 El repositorio tiene el codigo fuente.
 
 Ve a [git-scm.com](git-scm.com) y descarga el instalador de Git para Windows.
-Verifica la instalación:
-
-`git clone https://github.com/juanalopez1/obligatorio-SO`
+Una vez instalado, descargue el repositorio con:
+```
+git clone https://github.com/juanalopez1/obligatorio-SO
+```
 
 # Ejecución
 
