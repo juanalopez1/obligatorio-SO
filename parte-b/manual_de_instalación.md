@@ -1,22 +1,38 @@
-## Cómo configurar el entorno para la ejecución de Gestioner
-### 1 Instalar python
+# Cómo configurar el entorno para la ejecución de Gestioner
+### Instalar python
 
 Ve a [python.org](python.org)
 
 Haz clic en el botón de descarga para la versión recomendada (generalmente la última versión estable). Descarga para Windows.
 
-Verifica la instalación en cmd con: python --version (comando)
+Verifica la instalación en cmd con `python --version`
 
-### 2 Descarga las librerias usadas por el programa
+### Dependencias
 
-Psutil: pip install psutil (comando)
-Wmi: pip install wmi (comando)
+Asegúrese de tener una versión de python actualizada (el proyecto se desarrolló con python 3.12), y tener las librerias
+disponibles en `requirements.txt` instaladas. Para eso puede ejecutar:
 
-### 3 Instala Git para la descarga de este repositorio
+```
+pip install psutil
+```
+```
+pip install wmi
+```
 
-El repositorio tiene el codigo fuente, main.py vendría ser el ejecutable
+### Instalar Git para la descarga de este repositorio
+
+El repositorio tiene el codigo fuente.
 
 Ve a [git-scm.com](git-scm.com) y descarga el instalador de Git para Windows.
 Verifica la instalación:
 
-git clone https://github.com/juanalopez1/obligatorio-SO (comando)
+`git clone https://github.com/juanalopez1/obligatorio-SO`
+
+# Ejecución
+
+El punto de inicio del programa es `main.py`. Para ejecutarlo desde la línea de
+comandos, ejecute (en el mismo directorio que el archivo):
+
+```
+python main.py
+```
