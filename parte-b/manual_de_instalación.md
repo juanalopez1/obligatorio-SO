@@ -10,7 +10,9 @@ Verifica la instalación en cmd con `python --version`
 ### Dependencias
 
 Asegúrese de tener una versión de python actualizada (el proyecto se desarrolló con python 3.12), y tener las librerias
-disponibles en `requirements.txt` instaladas. Para instalar las librerias utilizadas en el proyecto puede ejecutar:
+disponibles en `requirements.txt` instaladas. 
+
+Para instalar unicamente las librerias utilizadas en el proyecto puede ejecutar:
 
 ```
 pip install psutil
