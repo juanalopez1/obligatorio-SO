@@ -16,20 +16,42 @@ function create_user {
     Write-Output "Usuario '$username' agregado al grupo Usuarios."
 }
 
-# Creación de sus carpetas
+# Creación de carpetas
 function create_dir {
     param ($username, $dir_name)
     
-    if (-not (Test-Path "C:\Users\$username\Desktop\$dir_name")) {
-        New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name"
+    $desktopPath = "C:\Users\$username\Escritorio"
+
+    # Verificar si la carpeta Desktop del usuario existe
+    if (-not (Test-Path $desktopPath)) {
+        Write-Output "La carpeta Escritorio de $username no existe o no se puede acceder."
+        return
     }
 
-    if ($dir_name -eq "Asientos") {
-        New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Diario"
+    # Crear la carpeta principal
+    $dirPath = Join-Path -Path $desktopPath -ChildPath $dir_name
+    if (-not (Test-Path $dirPath)) {
+        New-Item -ItemType Directory -Path $dirPath
     }
-    New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Semanal"
-    New-Item -ItemType Directory -Path "C:\Users\$username\Desktop\$dir_name\Mensual" 
-    Write-Output "El directorio $dir_name se ha creado con éxito"
+
+    # Crear subdirectorios específicos
+    $subDirs = @("Semanal", "Mensual")
+    foreach ($subDir in $subDirs) {
+        $subDirPath = Join-Path -Path $dirPath -ChildPath $subDir
+        if (-not (Test-Path $subDirPath)) {
+            New-Item -ItemType Directory -Path $subDirPath
+        }
+    }
+
+    # Crear directorio adicional "Diario" si $dir_name es "Asientos"
+    if ($dir_name -eq "Asientos") {
+        $diarioPath = Join-Path -Path $dirPath -ChildPath "Diario"
+        if (-not (Test-Path $diarioPath)) {
+            New-Item -ItemType Directory -Path $diarioPath
+        }
+    }
+
+    Write-Output "El directorio $dir_name se ha creado con éxito en el escritorio de $username"
 }
 
 # Respaldo de las carpetas
@@ -44,7 +66,7 @@ function do_bakcup {
     $date = Get-Date -Format "ddMMMyyyy"
     $date = $date.ToUpper()
 
-    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
+    Compress-Archive -Path "C:\Users\$username\Escritorio\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
     Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
@@ -68,16 +90,23 @@ function set_user_folder_permissions {
 # Para que solo puedan acceder unicamente a sus carpetas
 function block_access_to_users {
     param ($username)
-    $nombreUsuario = $username
-    $carpetasRestringidas = @("C:\") 
 
-    foreach ($carpeta in $carpetasRestringidas) {
-        $aclRestringida = Get-Acl $carpeta
-        $permissionRestringida = "$nombreUsuario", "ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Deny"
-        $accessRuleRestringida = New-Object System.Security.AccessControl.FileSystemAccessRule($permissionRestringida)
-        $aclRestringida.SetAccessRule($accessRuleRestringida)
-        Set-Acl $carpeta $aclRestringida
+    # Ruta de la carpeta del usuario específico
+    $userFolder = "C:\Users\$username"
+
+    # Obtenemos la lista de todas las carpetas en C:\
+    $carpetas = Get-ChildItem -Path C:\ -Directory
+
+    foreach ($carpeta in $carpetas) {
+        if ($carpeta.FullName -ne $userFolder) {
+            # Creamos una regla de acceso denegado para cada carpeta excepto la del usuario
+            $acl = Get-Acl -Path $carpeta.FullName
+            $permission = "$username", "ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Deny"
+            $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($permission)
+            $acl.AddAccessRule($accessRule)
+            Set-Acl -Path $carpeta.FullName -AclObject $acl
+        }
     }
 
-    Write-Output "El usuario $username no puede acceder a C:\"
+    Write-Output "El usuario $username no puede acceder a las carpetas en C:\ excepto $userFolder"
 }

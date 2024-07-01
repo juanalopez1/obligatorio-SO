@@ -1,4 +1,4 @@
-. C:\Users\juana\OneDrive\Desktop\obligatorio-SO\parte-a\funciones.ps1
+. parte-a\funciones.ps1
 
 create_user "Contaduria" 
 create_dir "Contaduria" "Asientos" 
