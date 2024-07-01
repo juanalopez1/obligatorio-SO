@@ -41,10 +41,4 @@ El punto de entrada del programa es `main.py`. Para ejecutarlo desde la línea d
 
 ```
 python main.py
-## Ejecución del Programa
-
-El punto de entrada del programa es `main.py`. Para ejecutarlo desde la línea de comandos, asegúrate de estar en el mismo directorio que el archivo y ejecuta:
-
-```bash
-python main.py
-
+```
