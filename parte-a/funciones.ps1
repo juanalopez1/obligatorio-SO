@@ -4,7 +4,7 @@ function create_user {
     
     if (-not (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue)) {
         # Se crea el usuario sin contraseña
-        New-LocalUser -Name $username -NoPassword -Description "Usuario $username" -PasswordNeverExpires:$true -AccountNeverExpires:$true | Out-Null
+        New-LocalUser -Name $username -NoPassword
         Write-Output "Usuario '$username' creado exitosamente."
     }
     else {
@@ -12,7 +12,7 @@ function create_user {
     }
 
     # Agregar el usuario al grupo
-    Add-LocalGroupMember -Group "Usuarios" -Member $username | Out-Null
+    Add-LocalGroupMember -Group "Usuarios" -Member $username
     Write-Output "Usuario '$username' agregado al grupo Usuarios."
 }
 
