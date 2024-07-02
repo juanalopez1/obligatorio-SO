@@ -20,11 +20,11 @@ function create_user {
 function create_dir {
     param ($username, $dir_name)
     
-    $desktopPath = "C:\Users\$username\Escritorio"
+    $desktopPath = "C:\Users\$username\Desktop"
 
     # Verificar si la carpeta Desktop del usuario existe
     if (-not (Test-Path $desktopPath)) {
-        Write-Output "La carpeta Escritorio de $username no existe o no se puede acceder."
+        Write-Output "La carpeta Desktop de $username no existe o no se puede acceder."
         return
     }
 
@@ -66,7 +66,7 @@ function do_bakcup {
     $date = Get-Date -Format "ddMMMyyyy"
     $date = $date.ToUpper()
 
-    Compress-Archive -Path "C:\Users\$username\Escritorio\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
+    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
     Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
