@@ -25,11 +25,22 @@ def print_users_backup():
     
 def do_backup(user) -> bool:
     try:
-        powershell_path = "powershell.exe"
-        result = subprocess.run([powershell_path, "-File", "backup.ps1"], check=True, capture_output=True, text=True)
-        home_directory = os.path.expanduser(f'~{user}')
-        backup_directory = os.path.join(home_directory, 'Respaldo')
-        return os.path.exists(backup_directory)
+        result = subprocess.run(
+            ["powershell.exe", "-File", "backup.ps1", "-username", user],
+            check=True,
+            capture_output=True,
+            text=True
+        )
+        backup_directory = os.path.join('C:\\', 'Respaldo')
+        
+        # Verifica si existe el directorio de respaldo
+        if os.path.exists(backup_directory):
+            # Busca en los nombres de los directorios dentro de C:\Respaldo
+            for directory_name in os.listdir(backup_directory):
+                full_directory_path = os.path.join(backup_directory, directory_name)
+                if os.path.isdir(full_directory_path) and user in directory_name:
+                    return True
+        return False
     except subprocess.CalledProcessError as e:
         return False
 

@@ -1,6 +1,6 @@
 # Creación de los usuarios
 function create_user {
-    param ($username)
+    param ([string]$username)
     
     if (-not (Get-LocalUser -Name $userName -ErrorAction SilentlyContinue)) {
         # Se crea el usuario sin contraseña
@@ -18,7 +18,7 @@ function create_user {
 
 # Creación de carpetas
 function create_dir {
-    param ($username, $dir_name)
+    param ([string]$username, [string]$dir_name)
     
     $desktopPath = "C:\Users\$username\Desktop"
 
@@ -56,7 +56,7 @@ function create_dir {
 
 # Respaldo de las carpetas
 function do_bakcup {
-    param ($username, $dir_name)
+    param ([string]$username, [string]$dir_name)
     $rutaRespaldo = "C:\Respaldo"
 
     if (-not (Test-Path $rutaRespaldo)) {
@@ -66,13 +66,13 @@ function do_bakcup {
     $date = Get-Date -Format "ddMMMyyyy"
     $date = $date.ToUpper()
 
-    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
+    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date-$username.zip" 
     Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
 # Para que solo puedan modificar sus carpetas
 function set_user_folder_permissions {
-    param ($username)
+    param ([string]$username)
 
     $rutaCarpetaUsuario = "C:\Users\$username" 
 
@@ -89,7 +89,7 @@ function set_user_folder_permissions {
 
 # Para que solo puedan acceder unicamente a sus carpetas
 function block_access_to_users {
-    param ($username)
+    param ([string]$username)
 
     # Ruta de la carpeta del usuario específico
     $userFolder = "C:\Users\$username"
@@ -110,3 +110,19 @@ function block_access_to_users {
 
     Write-Output "El usuario $username no puede acceder a las carpetas en C:\ excepto $userFolder"
 }
+
+create_user -username "Contaduria" 
+create_dir -username "Contaduria" -dir_name "Asientos" 
+do_bakcup -username "Contaduria" -dir_name "Asientos" 
+set_user_folder_permissions -username "Contaduria" 
+block_access_to_users -username "Contaduria" 
+
+create_user -username "Relaciones públicas" 
+create_dir -username "Relaciones públicas" -dir_name "Comunicados" 
+do_bakcup -username "Relaciones públicas" -dir_name "Comunicados" 
+set_user_folder_permissions -username "Relaciones públicas" 
+block_access_to_users -username "Relaciones públicas"
+
+create_user -username "Recepcion" 
+set_user_folder_permissions -username "Recepcion" 
+block_access_to_users -username "Recepcion" 

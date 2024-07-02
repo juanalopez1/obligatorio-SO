@@ -11,11 +11,12 @@ class User:
         self.backup = self.does_it_have_backup()
 
     def does_it_have_backup(self) -> str:
-        home_directory = os.path.expanduser(f'~{self.name}')
-        backup_directory = os.path.join(home_directory, 'Respaldo')
-        response = os.path.exists(backup_directory)
-        if (response):
-            return "Sí"
+        backup_root_directory = os.path.join('C:\\', 'Respaldo')
+        if os.path.exists(backup_root_directory):
+            for directory_name in os.listdir(backup_root_directory):
+                full_directory_path = os.path.join(backup_root_directory, directory_name)
+                if os.path.isdir(full_directory_path) and self.name in directory_name:
+                    return "Sí"
         return "No tiene"
     
     def get_last_login(self) -> str:
