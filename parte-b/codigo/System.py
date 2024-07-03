@@ -24,8 +24,7 @@ def set_groups(users: list[User]) -> list[User]:
     return users
 
 def print_users():
-    users = get_user_list()  
-    users = set_groups(users) 
+    users = set_groups(get_user_list()) 
         
     for user in users:
         print(f"{colors.CYAN}╭────────────────────────────────────────────────────╮")

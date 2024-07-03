@@ -55,9 +55,9 @@ function create_dir {
 }
 
 # Respaldo de las carpetas
-function do_bakcup {
-    param ([string]$username, [string]$dir_name)
-    $rutaRespaldo = "C:\Respaldo"
+function do_backup {
+    param ($username, $dir_name)
+    $rutaRespaldo = "C:\Respaldo\$username"
 
     if (-not (Test-Path $rutaRespaldo)) {
         New-Item -ItemType Directory -Path $rutaRespaldo
@@ -66,7 +66,7 @@ function do_bakcup {
     $date = Get-Date -Format "ddMMMyyyy"
     $date = $date.ToUpper()
 
-    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date-$username.zip" 
+    Compress-Archive -Path "C:\Users\$username\Desktop\$dir_name" -DestinationPath "$rutaRespaldo\$date.zip" 
     Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
@@ -88,7 +88,7 @@ function set_user_folder_permissions {
 }
 
 # Para que solo puedan acceder unicamente a sus carpetas
-function block_access_to_users {
+function block_access_to_user {
     param ([string]$username)
 
     # Ruta de la carpeta del usuario específico
@@ -110,6 +110,7 @@ function block_access_to_users {
 
     Write-Output "El usuario $username no puede acceder a las carpetas en C:\ excepto $userFolder"
 }
+
 
 create_user -username "Contaduria" 
 create_dir -username "Contaduria" -dir_name "Asientos" 

@@ -1,4 +1,6 @@
+import datetime
 import os
+import shutil
 import subprocess
 import System
 from colors import colors
@@ -12,9 +14,9 @@ def print_users_backup():
     elegido = input("\nIngrese usuario al que desea hacerle respaldo: " + colors.YELLOW + "\nEscriba 'volver' si se arrepintió " + colors.ENDC + "\n - ")
     elegido = elegido.lower()
     if elegido != "volver":
-        if do_backup(elegido):
-            home_directory = os.path.expanduser(f'~{elegido}')
-            print(colors.GREEN + f"Respaldo hecho con éxito. Puede verlo en {home_directory}")
+        dire = str(input("Ingrese nombre" + colors.YELLOW + " exacto " + colors.ENDC + "del directorio a respaldar: "))
+        if do_backup(elegido, dire):
+            print(colors.GREEN + f"Respaldo del directorio {dire} hecho con éxito. Puede verlo en C:\Respaldo\{elegido}")
             return
         else:
             print(colors.RED + "No se pudo realizar el respaldo")
@@ -22,26 +24,35 @@ def print_users_backup():
     else:
         return
 
-    
-def do_backup(user) -> bool:
+
+
+def do_backup(user, folder_name) -> bool:
     try:
-        result = subprocess.run(
-            ["powershell.exe", "-File", "backup.ps1", "-username", user],
-            check=True,
-            capture_output=True,
-            text=True
-        )
-        backup_directory = os.path.join('C:\\', 'Respaldo')
+        desktop_dir = os.path.join(os.path.expanduser(f"~{user}"), "Desktop", folder_name) # ruta de la carpeta a respaldar
+        if not os.path.exists(desktop_dir):
+            folder_name = str(input("La carpeta que ingresó no existe. Ingrese una carpeta válida: "))
+            desktop_dir = os.path.join(os.path.expanduser(f"~{user}"), "Desktop", folder_name) # ruta de la carpeta a respaldar
         
-        # Verifica si existe el directorio de respaldo
-        if os.path.exists(backup_directory):
-            # Busca en los nombres de los directorios dentro de C:\Respaldo
-            for directory_name in os.listdir(backup_directory):
-                full_directory_path = os.path.join(backup_directory, directory_name)
-                if os.path.isdir(full_directory_path) and user in directory_name:
-                    return True
+        backup_root = os.path.join("C:\\Respaldo", user) # ruta de la carpeta del usuario dentro de respaldo
+        
+        # si respaldo no existe, se crea
+        if not os.path.exists(backup_root):
+            os.makedirs(backup_root)
+        
+        resultado = subprocess.run(["powershell.exe", "-File", "parte-b\\codigo\\date.ps1"], capture_output=True, text=True)
+        get_date = resultado.stdout.strip()
+
+        if resultado.returncode != 0:
+            print("Error al obtener la fecha del script de PowerShell")
+            return False
+        
+        backup_file = os.path.join(backup_root, f"{get_date}.zip")
+        shutil.make_archive(base_name=backup_file.replace('.zip', ''), format='zip', root_dir=desktop_dir)
+
+        return True
+    except Exception as e:
         return False
-    except subprocess.CalledProcessError as e:
-        return False
+
+
 
 
