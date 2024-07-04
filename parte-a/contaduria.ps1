@@ -36,11 +36,17 @@ if (-not (Test-Path $rutaRespaldo)) {
     New-Item -ItemType Directory -Path $rutaRespaldo
 }
 
+$rutaRespaldoUser = "C:\Respaldo\Contaduria"
+
+if (-not (Test-Path $rutaRespaldoUser)) {
+    New-Item -ItemType Directory -Name Contaduria -Path $rutaRespaldoUser
+}
+
 $date = Get-Date -Format "ddMMMyyyy"
 $date = $date.ToUpper()
 
 Compress-Archive -Path "C:\Users\Contaduria\Desktop\Asientos" -DestinationPath "$rutaRespaldo\$date-Contaduria.zip" 
-Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
+Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldoUser"
 
 
 # Para que solo puedan acceder unicamente a sus carpetas
