@@ -28,7 +28,7 @@ def print_process():
         print(colors.RED + "Opción inválida")
 
 # Responsable de obtener e imprimir la lista de los procesos de un usuario pasado por parametro
-def get_process_list(user: str) -> bool:
+def get_process_list(user: str):
     contador = 0
     for process in psutil.process_iter(['pid', 'name', 'username','status']):
         process_info = process.info
@@ -42,7 +42,6 @@ def get_process_list(user: str) -> bool:
             contador += 1
             print(f"Nombre: {name} | Identificador: {pid} | Porcentaje CPU: {cpu_percent}% | Estado: {status}")
     print(colors.GREEN + "Total:", contador)
-    return True
 
 # Método llamado cuando el usuario desea eliminar un proceso con su id
 def delete_proc(id):

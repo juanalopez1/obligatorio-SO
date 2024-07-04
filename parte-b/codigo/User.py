@@ -1,5 +1,4 @@
 import os
-import subprocess
 import wmi
 
 # La clase User representa a un usuario del sistema. Cada atributo es una carateristica que se pedia en la consgina del trabajo
