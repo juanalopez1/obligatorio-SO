@@ -14,7 +14,6 @@ class User:
         backup_root_directory = os.path.join('C:\\', 'Respaldo')
         if os.path.exists(backup_root_directory):
             for directory_name in os.listdir(backup_root_directory):
-                full_directory_path = os.path.join(backup_root_directory, directory_name)
                 if self.name in directory_name:
                     return "Sí"
         return "No tiene"

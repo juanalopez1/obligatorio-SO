@@ -13,7 +13,6 @@ def print_users_backup():
             print(user.name)
     elegido = input("\nIngrese usuario al que desea hacerle respaldo: " + colors.YELLOW + "\nEscriba 'volver' si se arrepintió " + colors.ENDC + "\n - ")
     elegido = elegido.lower()
-    elegido = elegido.capitalize()
     if elegido != "volver":
         dire = str(input("Ingrese nombre del directorio de 'Desktop' a respaldar: "))
         if do_backup(elegido, dire):
