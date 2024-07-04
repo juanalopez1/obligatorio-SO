@@ -1,3 +1,4 @@
+# Clase utilizada para agregar los colores de las impresiones de consola
 class colors:
     # Estilos de texto
     BOLD = '\033[1m'

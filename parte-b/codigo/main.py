@@ -38,7 +38,7 @@ def menu_options(chosen_option: int):
         menu()
 
     elif chosen_option == 2:
-        Proccess.get_process()
+        Proccess.print_process()
         menu()
 
     elif chosen_option == 3:

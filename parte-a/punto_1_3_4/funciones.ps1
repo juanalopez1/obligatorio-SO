@@ -56,7 +56,7 @@ function create_dir {
 
 # Respaldo de las carpetas
 function do_backup {
-    param ($username, $dir_name)
+    param ([string]$username, [string]$dir_name)
     $rutaRespaldo = "C:\Respaldo\$username"
 
     if (-not (Test-Path $rutaRespaldo)) {
@@ -70,60 +70,40 @@ function do_backup {
     Write-Output "El respaldo se ha creado con éxito. Puede verlo en $rutaRespaldo"
 }
 
-# Para que solo puedan modificar sus carpetas
-function set_user_folder_permissions {
-    param ([string]$username)
-
-    $rutaCarpetaUsuario = "C:\Users\$username" 
-
-    $acl = Get-Acl $rutaCarpetaUsuario
-
-    # Permisos para permitir la modificación
-    $permission = $username, "Modify", "ContainerInherit,ObjectInherit", "None", "Allow"
-    $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($permission)
-    $acl.SetAccessRule($accessRule)
-
-    Set-Acl $rutaCarpetaUsuario $acl 
-    Write-Output "Se concedieron permisos de modificacion a $rutaCarpetaUsuario exitosamente"
-}
-
-# Para que solo puedan acceder unicamente a sus carpetas
+# Para que no puedan acceder a las carpetas de los demas usuarios
 function block_access_to_user {
     param ([string]$username)
-
+    $usersFolder = "C:\Users"
     # Ruta de la carpeta del usuario específico
-    $userFolder = "C:\Users\$username"
-
-    # Obtenemos la lista de todas las carpetas en C:\
-    $carpetas = Get-ChildItem -Path C:\ -Directory
-
-    foreach ($carpeta in $carpetas) {
-        if ($carpeta.FullName -ne $userFolder) {
-            # Creamos una regla de acceso denegado para cada carpeta excepto la del usuario
-            $acl = Get-Acl -Path $carpeta.FullName
-            $permission = "$username", "ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Deny"
-            $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($permission)
+    $itsFolder = "$usersFolder\$username"
+    # Obtener todas las carpetas dentro de C:\Users
+    $folders = Get-ChildItem -Path $usersFolder -Directory
+    foreach ($folder in $folders) {
+        # Verificar que la carpeta no sea la del usuario específico
+        if ($folder.FullName -ne $itsFolder) {
+            $acl = Get-Acl -Path $folder.FullName
+            $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule($username, "ReadAndExecute", "ContainerInherit,ObjectInherit", "None", "Deny")
             $acl.AddAccessRule($accessRule)
-            Set-Acl -Path $carpeta.FullName -AclObject $acl
+            Set-Acl -Path $folder.FullName -AclObject $acl
         }
     }
 
-    Write-Output "El usuario $username no puede acceder a las carpetas en C:\ excepto $userFolder"
+    Write-Output "El usuario $username no puede acceder a las carpetas en $usersFolder excepto $itsFolder"
 }
+
 
 
 create_user -username "Contaduria" 
 create_dir -username "Contaduria" -dir_name "Asientos" 
-do_bakcup -username "Contaduria" -dir_name "Asientos" 
-set_user_folder_permissions -username "Contaduria" 
-block_access_to_users -username "Contaduria" 
+do_backup -username "Contaduria" -dir_name "Asientos" 
+block_access_to_user -username "Contaduria" 
 
 create_user -username "Relaciones públicas" 
 create_dir -username "Relaciones públicas" -dir_name "Comunicados" 
-do_bakcup -username "Relaciones públicas" -dir_name "Comunicados" 
-set_user_folder_permissions -username "Relaciones públicas" 
-block_access_to_users -username "Relaciones públicas"
+do_backup -username "Relaciones públicas" -dir_name "Comunicados" 
+block_access_to_user -username "Relaciones públicas"
 
 create_user -username "Recepcion" 
-set_user_folder_permissions -username "Recepcion" 
-block_access_to_users -username "Recepcion" 
+block_access_to_user -username "Recepcion" 
+
+

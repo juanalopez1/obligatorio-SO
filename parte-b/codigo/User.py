@@ -2,7 +2,7 @@ import os
 import subprocess
 import wmi
 
-
+# La clase User representa a un usuario del sistema. Cada atributo es una carateristica que se pedia en la consgina del trabajo
 class User:
     def __init__(self, name: str):
         self.name = name
@@ -10,6 +10,7 @@ class User:
         self.last_seen = self.format_datetime(self.get_last_login())
         self.backup = self.does_it_have_backup()
 
+    # Método que verifica si el usuario tiene backup y le asigna una string al atributo "backup"
     def does_it_have_backup(self) -> str:
         backup_root_directory = os.path.join('C:\\', 'Respaldo')
         if os.path.exists(backup_root_directory):
@@ -19,6 +20,7 @@ class User:
                     return "Sí"
         return "No tiene"
     
+    # Método que obtiene la fecha y hora del último ingreso del usuario. Le asigna una string al atributo "last_seen"
     def get_last_login(self) -> str:
         try:
             c = wmi.WMI()
@@ -30,7 +32,7 @@ class User:
         except:
             return "-"
         
-    
+    # Método hecho por Chatgpt para que la string de last_seen se viera prolija
     def format_datetime(self, start_time: str) -> str:
         if start_time != "-":
             start_time = start_time.split('.')[0]

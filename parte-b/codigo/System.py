@@ -3,6 +3,7 @@ from User import User
 from colors import colors
 import wmi
 
+# Obtiene la lista de los usuarios del sistema y crea las instancias de los mismos, guardandolas en una lista para mas adelante acceder a ellos
 def get_user_list()-> list[User]:
     c = wmi.WMI()
     users = []
@@ -11,6 +12,8 @@ def get_user_list()-> list[User]:
         users.append(new_user)
     return users
 
+# Recibe las instancias de los usuarios y retorna la misma lista pero modifica el atributo "groups", asignandole a cada usuario sus 
+# grupos determinados. Esto lo puede hacer ya que tambien es el responsable de obtener los grupos (y sus respectivos miembros) del sistema
 def set_groups(users: list[User]) -> list[User]:
     c = wmi.WMI()
     groups = c.Win32_Group()
@@ -23,6 +26,7 @@ def set_groups(users: list[User]) -> list[User]:
 
     return users
 
+# Imprime los usuarios y sus respectivos atributos
 def print_users():
     users = set_groups(get_user_list()) 
         

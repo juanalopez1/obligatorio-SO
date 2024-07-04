@@ -5,6 +5,7 @@ import subprocess
 import System
 from colors import colors
 
+# Imprime los usuarios sin respaldo y hace las preguntas al usuario
 def print_users_backup():
     print(colors.GREEN + "Usuarios sin respaldo: " + colors.ENDC)
     users = System.get_user_list()
@@ -25,8 +26,7 @@ def print_users_backup():
     else:
         return
 
-
-
+# Hace el respaldo de la carpeta pasada por parametro del usuario pasado por parametro
 def do_backup(user:str, folder_name:str) -> bool:
     try:
         folder_name = folder_name.capitalize()
