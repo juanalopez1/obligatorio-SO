@@ -1,6 +1,6 @@
 ## Sobre nuestros scripts!
 
-Después de haber lidiado con un intento fallido de crear una serie de funciones en un solo script y no haber encontrado el error, como equipo decidimos resolver la consigna utilizando scripts tradicionales. Simplemente escribimos los comandos necesarios para cumplir con el objetivo. Basándonos en las funciones, transcribimos para cada usuario las funciones utilizadas y "hardcodeamos" los nombres de los usuarios en lugar de pasarlos como parámetros, lo mismo con los directorios.
+Después de haber lidiado con un intento fallido de crear una serie de funciones en un solo script y no haber encontrado el error por el cual no lograbamos cumplir con la consigna, como equipo decidimos resolver la consigna utilizando scripts tradicionales. Simplemente escribimos los comandos necesarios para cumplir con el objetivo. Basándonos en las funciones, transcribimos para cada usuario las funciones utilizadas y "hardcodeamos" los nombres de los usuarios en lugar de pasarlos como parámetros, lo mismo con los directorios.
 
 ### Punto 1 __Contaduria__
 
