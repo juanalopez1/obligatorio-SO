@@ -15,7 +15,7 @@ def print_users_backup():
     elegido = elegido.lower()
     elegido = elegido.capitalize()
     if elegido != "volver":
-        dire = str(input("Ingrese nombre" + colors.YELLOW + " exacto " + colors.ENDC + "del directorio a respaldar: "))
+        dire = str(input("Ingrese nombre del directorio de 'Desktop' a respaldar: "))
         if do_backup(elegido, dire):
             print(colors.GREEN + f"Respaldo del directorio {dire} hecho con éxito. Puede verlo en C:\Respaldo\{elegido}")
             return
@@ -27,11 +27,13 @@ def print_users_backup():
 
 
 
-def do_backup(user, folder_name) -> bool:
+def do_backup(user:str, folder_name:str) -> bool:
     try:
+        folder_name = folder_name.capitalize()
         desktop_dir = os.path.join(os.path.expanduser(f"~{user}"), "Desktop", folder_name) # ruta de la carpeta a respaldar
         if not os.path.exists(desktop_dir):
             folder_name = str(input("La carpeta que ingresó no existe. Ingrese una carpeta válida: "))
+            folder_name = folder_name.capitalize()
             desktop_dir = os.path.join(os.path.expanduser(f"~{user}"), "Desktop", folder_name) # ruta de la carpeta a respaldar
         
         backup_root = os.path.join("C:\\Respaldo", user) # ruta de la carpeta del usuario dentro de respaldo
